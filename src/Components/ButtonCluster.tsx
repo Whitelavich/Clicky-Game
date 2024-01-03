@@ -222,7 +222,6 @@ function ButtonCluster(props: GameComponentProps) {
                         >
                             <CardBody className="gap-1 pb-0  justify-center overflow-hidden min-h-fit ">
                                 <div className=" pb-4 pt-0 grid grid-rows-2 text-center  ">
-                                    {entity.tier}
                                     <h1 className=" pb-0 pt-8 underline md:text-lg font-bold">{entity.unit}</h1>
                                     <p className="pt-0">
                                         {entity.quantity < 1e15
