@@ -229,58 +229,57 @@ function ButtonCluster(props: GameComponentProps) {
     const selectedOptionValue = Array.from(selectedOption)[0] as unknown as buttonOptions
     return (
         <Card className="bg-content2">
-            <CardBody className="grid lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-1 gap-4 justify-center">
-                <div>
-                    {entities.map((entity) => {
-                        return (
-                            <Card className="bg-content1 overflow-scroll max-h-fit max-w-fit">
-                                <CardHeader className="flex justify-center">
-                                    {entity.unit} : {entity.quantity}
-                                </CardHeader>
-                                <CardBody className="gap-2 flex justify-center ">
-                                    <ButtonGroup variant="flat">
-                                        <Button
-                                            color="primary"
-                                            onClick={() =>
-                                                buyEntity(
-                                                    entity.tier,
-                                                    selectedOptionValue === 'MAX'
-                                                        ? entity.tier === 0
-                                                            ? 100
-                                                            : -1
-                                                        : Number(selectedOptionValue)
-                                                )
-                                            }
+            <CardBody className="grid sm:grid-cols-1  md:grid-cols-4 gap-4 justify-center">
+                {entities.map((entity) => {
+                    return (
+                        <Card className="bg-content1 overflow-scroll max-h-fit max-w-fit">
+                            <CardHeader className=" justify-center">
+                                {entity.unit} : {entity.quantity}
+                            </CardHeader>
+                            <CardBody className="gap-2  justify-center ">
+                                <ButtonGroup variant="flat">
+                                    <Button
+                                        color="primary"
+                                        onClick={() =>
+                                            buyEntity(
+                                                entity.tier,
+                                                selectedOptionValue === 'MAX'
+                                                    ? entity.tier === 0
+                                                        ? 100
+                                                        : -1
+                                                    : Number(selectedOptionValue)
+                                            )
+                                        }
+                                    >
+                                        {labelsMap[selectedOptionValue]}
+                                    </Button>
+                                    <Dropdown placement="bottom-end">
+                                        <DropdownTrigger>
+                                            <Button>▼</Button>
+                                        </DropdownTrigger>
+                                        <DropdownMenu
+                                            disallowEmptySelection
+                                            selectedKeys={selectedOption}
+                                            selectionMode="single"
+                                            onSelectionChange={(keys) => {
+                                                console.log(keys)
+                                                setSelectedOption(keys as unknown as Set<string>)
+                                            }}
+                                            className="max-w-[300px] bg-background"
                                         >
-                                            {labelsMap[selectedOptionValue]}
-                                        </Button>
-                                        <Dropdown placement="bottom-end">
-                                            <DropdownTrigger>
-                                                <Button>▼</Button>
-                                            </DropdownTrigger>
-                                            <DropdownMenu
-                                                disallowEmptySelection
-                                                selectedKeys={selectedOption}
-                                                selectionMode="single"
-                                                onSelectionChange={(keys) => {
-                                                    console.log(keys)
-                                                    setSelectedOption(keys as unknown as Set<string>)
-                                                }}
-                                                className="max-w-[300px] bg-background"
-                                            >
-                                                <DropdownItem className="bg-content1" key="1">
-                                                    +1
-                                                </DropdownItem>
-                                                <DropdownItem key="10">+10</DropdownItem>
-                                                <DropdownItem key="MAX">+Max</DropdownItem>
-                                            </DropdownMenu>
-                                        </Dropdown>
-                                    </ButtonGroup>
-                                </CardBody>
-                            </Card>
-                        )
-                    })}
-                </div>
+                                            <DropdownItem className="bg-content1" key="1">
+                                                +1
+                                            </DropdownItem>
+                                            <DropdownItem key="10">+10</DropdownItem>
+                                            <DropdownItem key="MAX">+Max</DropdownItem>
+                                        </DropdownMenu>
+                                    </Dropdown>
+                                </ButtonGroup>
+                            </CardBody>
+                        </Card>
+                    )
+                })}
+
                 {/*<Table hideHeader>*/}
                 {/*    <TableHeader columns={tableColumns}>*/}
                 {/*        {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}*/}
