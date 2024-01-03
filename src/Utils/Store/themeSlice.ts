@@ -5,7 +5,7 @@ export interface theme {
 }
 
 const initialState: theme = {
-    value: 'DarkReader',
+    value: 'Default',
 }
 export const themeSlice = createSlice({
     name: 'theme',
