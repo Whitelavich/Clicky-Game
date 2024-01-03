@@ -10,6 +10,8 @@ import {
 } from '@nextui-org/react'
 import { useEffect, useState } from 'react'
 import { format } from '../Utils/numbers'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 import numeral from 'numeral'
 import { useDispatch, useSelector } from 'react-redux'
@@ -182,7 +184,8 @@ function ButtonCluster(props: GameComponentProps) {
                 updateTier(targetEntity.tier, targetEntity.quantity + quantity)
                 costEntity.update(costEntity.quantity - cost * quantity)
             } else {
-                alert(`You need ${cost * quantity} ${costEntity.unit} to get that`)
+                toast(`You need ${cost * quantity} ${costEntity.unit} to get that`)
+                // alert(`You need ${cost * quantity} ${costEntity.unit} to get that`)
             }
         }
     }
@@ -204,6 +207,7 @@ function ButtonCluster(props: GameComponentProps) {
     const selectedOptionValue = Array.from(selectedOption)[0] as unknown as buttonOptions
     return (
         <Card className="bg-content2">
+            <ToastContainer position="top-left" theme="dark" autoClose={1000} />
             <CardBody className="grid   lg:grid-cols-4 md:gap-4 grid-cols-1 gap-1 justify-center overflow-auto">
                 {entities.map((entity) => {
                     return (
