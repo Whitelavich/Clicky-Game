@@ -154,7 +154,18 @@ function ButtonCluster(props: GameComponentProps) {
             })
         }, gameSpeed)
         return () => clearTimeout(gameLoop)
-    }, [gameSpeed, clicks, clickers, clickerFarms])
+    }, [
+        gameSpeed,
+        clicks,
+        clickers,
+        clickerFarms,
+        clickerVillages,
+        clickerTowns,
+        clickerCities,
+        clickerCountries,
+        clickerContinents,
+        clickerWorlds,
+    ])
 
     const tableColumns = [
         {
@@ -232,7 +243,10 @@ function ButtonCluster(props: GameComponentProps) {
             <CardBody className="grid sm:grid-cols-2  md:grid-cols-4 gap-4 justify-center">
                 {entities.map((entity) => {
                     return (
-                        <Card className="bg-content1 overflow-scroll min-h-[110px] max-h-fit max-w-fit">
+                        <Card
+                            key={entity.tier}
+                            className="bg-content1 overflow-scroll min-h-[110px] max-h-fit max-w-fit"
+                        >
                             <CardHeader className=" justify-center">
                                 {entity.unit} : {entity.quantity}
                             </CardHeader>
@@ -258,6 +272,7 @@ function ButtonCluster(props: GameComponentProps) {
                                             <Button>▼</Button>
                                         </DropdownTrigger>
                                         <DropdownMenu
+                                            key={entity.tier}
                                             disallowEmptySelection
                                             selectedKeys={selectedOption}
                                             selectionMode="single"
