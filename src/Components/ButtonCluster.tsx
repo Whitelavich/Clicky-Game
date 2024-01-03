@@ -1,5 +1,6 @@
 import {
     Button,
+    ButtonGroup,
     Card,
     CardBody,
     CardFooter,
@@ -246,29 +247,34 @@ function ButtonCluster(props: GameComponentProps) {
                 </Button>
                 <p>Clicks Needed: {numeral(10 ** (resets + 1)).format('0.00a')}</p>
                 <p>GameSpeed: {numeral(2000 / gameSpeed).format('0.00%')}</p>
-                <Dropdown size="sm" placement="bottom-end">
-                    <DropdownTrigger>
-                        <Button color="primary" className="">
-                            {selectedOption}⬇️
-                        </Button>
-                    </DropdownTrigger>
-                    <DropdownMenu
-                        disallowEmptySelection
-                        selectedKeys={selectedOption}
-                        selectionMode="single"
-                        onSelectionChange={(keys) => {
-                            // console.log(keys)
-                            setSelectedOption(keys as unknown as Set<string>)
-                        }}
-                        className="max-w-[300px] bg-background"
-                    >
-                        <DropdownItem className="bg-content1" key="1">
-                            +1
-                        </DropdownItem>
-                        <DropdownItem key="10">+10</DropdownItem>
-                        <DropdownItem key="MAX">+Max</DropdownItem>
-                    </DropdownMenu>
-                </Dropdown>
+                <ButtonGroup variant="shadow">
+                    <Button color="primary" disabled isDisabled>
+                        {selectedOption}
+                    </Button>
+                    <Dropdown size="sm" placement="bottom-end">
+                        <DropdownTrigger>
+                            <Button isIconOnly color="primary" className="">
+                                ⬇️
+                            </Button>
+                        </DropdownTrigger>
+                        <DropdownMenu
+                            disallowEmptySelection
+                            selectedKeys={selectedOption}
+                            selectionMode="single"
+                            onSelectionChange={(keys) => {
+                                // console.log(keys)
+                                setSelectedOption(keys as unknown as Set<string>)
+                            }}
+                            className="max-w-[300px] bg-background"
+                        >
+                            <DropdownItem className="bg-content1" key="1">
+                                +1
+                            </DropdownItem>
+                            <DropdownItem key="10">+10</DropdownItem>
+                            <DropdownItem key="MAX">+Max</DropdownItem>
+                        </DropdownMenu>
+                    </Dropdown>
+                </ButtonGroup>
             </CardFooter>
         </Card>
     )
