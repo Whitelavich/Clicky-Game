@@ -10,7 +10,7 @@ const Home = () => {
     const level1Resets = useSelector(getLevel1Reset)
 
     return (
-        <Card className={`${useSelector(getTheme)} rounded-none  max-h-[90vh] min-h-[90vh] gap-2 bg-background  `}>
+        <Card className={`${useSelector(getTheme)} rounded-none  max-h-screen min-h-screen gap-2 bg-background  `}>
             <CardBody className="gap-2 grid md:grid-cols-2 sm:grid-rows-3">
                 <ButtonCluster />
                 {level1Resets >= 3 && <GraphCluster />}
