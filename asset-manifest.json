@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "./static/css/main.056ac7db.css",
-    "main.js": "./static/js/main.f466c57d.js",
-    "static/js/787.cc30de8e.chunk.js": "./static/js/787.cc30de8e.chunk.js",
-    "index.html": "./index.html",
-    "main.056ac7db.css.map": "./static/css/main.056ac7db.css.map",
-    "main.f466c57d.js.map": "./static/js/main.f466c57d.js.map",
-    "787.cc30de8e.chunk.js.map": "./static/js/787.cc30de8e.chunk.js.map"
+    "main.css": "/Clicky-Game/static/css/main.9c81c475.css",
+    "main.js": "/Clicky-Game/static/js/main.f874ef29.js",
+    "static/js/787.cc30de8e.chunk.js": "/Clicky-Game/static/js/787.cc30de8e.chunk.js",
+    "index.html": "/Clicky-Game/index.html",
+    "main.9c81c475.css.map": "/Clicky-Game/static/css/main.9c81c475.css.map",
+    "main.f874ef29.js.map": "/Clicky-Game/static/js/main.f874ef29.js.map",
+    "787.cc30de8e.chunk.js.map": "/Clicky-Game/static/js/787.cc30de8e.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.056ac7db.css",
-    "static/js/main.f466c57d.js"
+    "static/css/main.9c81c475.css",
+    "static/js/main.f874ef29.js"
   ]
 }
