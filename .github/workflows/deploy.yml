@@ -27,7 +27,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "14"
-     - name: Install Deps
+      - name: Install Deps
         run: npm i 
       - name: Build
         run: npm run build
