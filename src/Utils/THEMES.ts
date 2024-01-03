@@ -1,4 +1,5 @@
 import { commonColors } from '@nextui-org/react'
+
 export const THEMES: THEME_NAME[] = [
     'Default',
     'Dark',
@@ -9,6 +10,7 @@ export const THEMES: THEME_NAME[] = [
     'Autumn',
     'Space',
     'Mint',
+    'DarkReader',
     'Mystery',
 ]
 export type THEME_NAME =
@@ -22,6 +24,7 @@ export type THEME_NAME =
     | 'Autumn'
     | 'Space'
     | 'Mint'
+    | 'DarkReader'
 
 export type THEME = {
     colors: {
@@ -46,6 +49,18 @@ export const themes: Record<THEME_NAME, THEME> = {
             background: commonColors.zinc[200],
             content1: commonColors.zinc[300],
             content2: commonColors.zinc[400],
+        },
+    },
+    DarkReader: {
+        colors: {
+            primary: {
+                DEFAULT: '#074603',
+                foreground: '#6f9ad5',
+            },
+            foreground: '#BE5D99',
+            background: '#6D150B',
+            content1: '#983B65',
+            content2: '#691309',
         },
     },
     Dark: {
@@ -144,6 +159,7 @@ export const themes: Record<THEME_NAME, THEME> = {
             content2: '#93E5AB',
         },
     },
+
     Mystery: {
         colors: {
             primary: {
