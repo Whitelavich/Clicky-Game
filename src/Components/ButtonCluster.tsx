@@ -229,14 +229,14 @@ function ButtonCluster(props: GameComponentProps) {
     const selectedOptionValue = Array.from(selectedOption)[0] as unknown as buttonOptions
     return (
         <Card className="bg-content2">
-            <CardBody className="grid sm:grid-cols-1  md:grid-cols-4 gap-4 justify-center">
+            <CardBody className="grid sm:grid-cols-2  md:grid-cols-4 gap-4 justify-center">
                 {entities.map((entity) => {
                     return (
                         <Card className="bg-content1 overflow-scroll min-h-[110px] max-h-fit max-w-fit">
                             <CardHeader className=" justify-center">
                                 {entity.unit} : {entity.quantity}
                             </CardHeader>
-                            <CardBody className="gap-2  justify-center ">
+                            <CardBody className="gap-2  justify-center overflow-hidden ">
                                 <ButtonGroup variant="flat">
                                     <Button
                                         color="primary"
