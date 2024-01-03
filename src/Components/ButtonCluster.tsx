@@ -248,7 +248,7 @@ function ButtonCluster(props: GameComponentProps) {
                     Reset: {resets}{' '}
                 </Button>
                 <p>Clicks Needed: {numeral(10 ** (resets + 1)).format('0.00a')}</p>
-                <p>GameSpeed: {numeral(2000 / gameSpeed).format('0.00%')} </p>
+                <p>GameSpeed: {numeral(2000 / gameSpeed).format('0.00%')}</p>
                 <Dropdown size="sm" placement="bottom-end">
                     <DropdownTrigger>
                         <Button color="primary" className="">

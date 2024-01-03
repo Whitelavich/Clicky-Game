@@ -61,12 +61,12 @@ const CanvasCluster = (props: CanvasClusterProps) => {
             const maxPixels = canvas.width * canvas.height
             const localCoverage = 1 - alphaValues.length / maxPixels
             setCoverage(localCoverage)
-            // console.log({ coverage })
+            console.log({ localCoverage })
             if (localCoverage >= 0.1 && localCoverage <= 0.5) {
-                dispatch(setClock(level1Clock * (1 + localCoverage / 2)))
+                dispatch(setClock(level1Clock * (1 - localCoverage)))
                 setLoopTime(loopTime > 200 ? loopTime - 200 : 200)
             } else {
-                const newClock = level1Clock * -(localCoverage / 2)
+                const newClock = level1Clock * (1 + localCoverage)
                 dispatch(setClock(newClock))
                 console.log(newClock)
                 setLoopTime(loopTime + 100)
@@ -88,7 +88,7 @@ const CanvasCluster = (props: CanvasClusterProps) => {
         const canvas = event.target
         const context = canvas.getContext('2d')
 
-        console.log({ event })
+        // console.log({ event })
         context.beginPath()
         context.lineWidth = level1Resets
         const gradient = context.createLinearGradient(0, 0, canvas.width, canvas.height)
@@ -114,8 +114,8 @@ const CanvasCluster = (props: CanvasClusterProps) => {
         const canvas = event.target
         const context = canvas.getContext('2d')
 
-        console.log('tap', { event })
-        console.log(event.nativeEvent.targetTouches[0].clientX, event.nativeEvent.targetTouches[0].clientY)
+        // console.log('tap', { event })
+        // console.log(event.nativeEvent.targetTouches[0].clientX, event.nativeEvent.targetTouches[0].clientY)
         // context.beginPath()
         // context.lineWidth = level1Resets
         const gradient = context.createLinearGradient(0, 0, canvas.width, canvas.height)
