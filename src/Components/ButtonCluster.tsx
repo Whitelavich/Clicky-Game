@@ -232,7 +232,7 @@ function ButtonCluster(props: GameComponentProps) {
             <CardBody className="grid sm:grid-cols-1  md:grid-cols-4 gap-4 justify-center">
                 {entities.map((entity) => {
                     return (
-                        <Card className="bg-content1 overflow-scroll max-h-fit max-w-fit">
+                        <Card className="bg-content1 overflow-scroll min-h-[110px] max-h-fit max-w-fit">
                             <CardHeader className=" justify-center">
                                 {entity.unit} : {entity.quantity}
                             </CardHeader>
