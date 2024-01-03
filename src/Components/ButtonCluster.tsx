@@ -25,7 +25,7 @@ interface GameComponentProps {
 }
 function ButtonCluster(props: GameComponentProps) {
     const clicks = useSelector((state) => getTier(state, 0))
-    const clickers = useSelector((state) => getTier(state, 1))
+
     const resets = useSelector(getReset)
 
     const updateTier = (tier: number, value: number) => {
@@ -37,14 +37,6 @@ function ButtonCluster(props: GameComponentProps) {
 
     const [selectedOption, setSelectedOption] = useState(new Set(['1']))
     const [devMode, setDevMode] = useState(false)
-
-    const [clickerFarms, setClickerFarms] = useState(0)
-    const [clickerVillages, setClickerVillages] = useState(0)
-    const [clickerTowns, setClickerTowns] = useState(0)
-    const [clickerCities, setClickerCities] = useState(0)
-    const [clickerCountries, setClickerCountries] = useState(0)
-    const [clickerContinents, setClickerContinents] = useState(0)
-    const [clickerWorlds, setClickerWorlds] = useState(0)
 
     const entities: GameEntity[] = [
         {
@@ -224,13 +216,15 @@ function ButtonCluster(props: GameComponentProps) {
                                 )
                             }}
                             key={entity.tier}
-                            className="bg-content1  min-h-[100px] bg-primary  text-primary-foreground"
+                            className={`${
+                                entity.tier === 0 ? 'col-span-full' : ''
+                            } bg-content1  min-h-[100px]  bg-primary text-primary-foreground`}
                         >
                             <CardBody className="gap-1 pb-0  justify-center overflow-hidden min-h-fit ">
                                 <div className=" pb-4 pt-0 grid grid-rows-2 text-center  ">
+                                    {entity.tier}
                                     <h1 className=" pb-0 pt-8 underline md:text-lg font-bold">{entity.unit}</h1>
                                     <p className="pt-0">
-                                        {' '}
                                         {entity.quantity < 1e15
                                             ? numeral(entity.quantity).format('0.0a')
                                             : numeral(entity.quantity).format('0.0e+0')}
