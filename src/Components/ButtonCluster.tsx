@@ -167,24 +167,6 @@ function ButtonCluster(props: GameComponentProps) {
         clickerWorlds,
     ])
 
-    const tableColumns = [
-        {
-            key: 'unit',
-            label: '',
-        },
-        {
-            key: '1X',
-            label: '1X',
-        },
-        {
-            key: '10X',
-            label: '10X',
-        },
-        {
-            key: 'MAX',
-            label: 'Max',
-        },
-    ]
     const reset = () => {
         entities.forEach((entity) => {
             entity.update(0)
@@ -240,56 +222,29 @@ function ButtonCluster(props: GameComponentProps) {
     const selectedOptionValue = Array.from(selectedOption)[0] as unknown as buttonOptions
     return (
         <Card className="bg-content2">
-            <CardBody className="grid sm:grid-cols-2  md:grid-cols-4 gap-4 justify-center">
+            <CardBody className="grid   lg:grid-cols-4 md:gap-4 grid-cols-1 gap-1 justify-center overflow-auto">
                 {entities.map((entity) => {
                     return (
                         <Card
+                            isPressable
+                            onPress={() => {
+                                buyEntity(
+                                    entity.tier,
+                                    selectedOptionValue === 'MAX'
+                                        ? entity.tier === 0
+                                            ? 100
+                                            : -1
+                                        : Number(selectedOptionValue)
+                                )
+                            }}
                             key={entity.tier}
-                            className="bg-content1 overflow-scroll min-h-[110px] max-h-fit max-w-fit"
+                            className="bg-content1  min-h-[100px] bg-primary  text-primary-foreground"
                         >
-                            <CardHeader className=" justify-center">
-                                {entity.unit} : {entity.quantity}
-                            </CardHeader>
-                            <CardBody className="gap-2  justify-center overflow-hidden ">
-                                <ButtonGroup variant="flat">
-                                    <Button
-                                        color="primary"
-                                        onClick={() =>
-                                            buyEntity(
-                                                entity.tier,
-                                                selectedOptionValue === 'MAX'
-                                                    ? entity.tier === 0
-                                                        ? 100
-                                                        : -1
-                                                    : Number(selectedOptionValue)
-                                            )
-                                        }
-                                    >
-                                        {labelsMap[selectedOptionValue]}
-                                    </Button>
-                                    <Dropdown placement="bottom-end">
-                                        <DropdownTrigger>
-                                            <Button>▼</Button>
-                                        </DropdownTrigger>
-                                        <DropdownMenu
-                                            key={entity.tier}
-                                            disallowEmptySelection
-                                            selectedKeys={selectedOption}
-                                            selectionMode="single"
-                                            onSelectionChange={(keys) => {
-                                                console.log(keys)
-                                                setSelectedOption(keys as unknown as Set<string>)
-                                            }}
-                                            className="max-w-[300px] bg-background"
-                                        >
-                                            <DropdownItem className="bg-content1" key="1">
-                                                +1
-                                            </DropdownItem>
-                                            <DropdownItem key="10">+10</DropdownItem>
-                                            <DropdownItem key="MAX">+Max</DropdownItem>
-                                        </DropdownMenu>
-                                    </Dropdown>
-                                </ButtonGroup>
+                            <CardBody className="gap-1 pb-0  justify-center overflow-hidden min-h-fit ">
+                                <div className=" pb-4 pt-0 grid grid-rows-2 text-center  ">
+                                    <h1 className=" pb-0 pt-8 underline md:text-lg font-bold">{entity.unit}</h1>
+                                    <p className="pt-0">{entity.quantity}</p>
+                                </div>
                             </CardBody>
                         </Card>
                     )
@@ -338,7 +293,7 @@ function ButtonCluster(props: GameComponentProps) {
                 {/*    </TableBody>*/}
                 {/*</Table>*/}
             </CardBody>
-            <CardFooter className="gap-3 py-6">
+            <CardFooter className="gap-3 py-6 justify-center text-center">
                 {/*<Slider*/}
                 {/*    step={1}*/}
                 {/*    minValue={10}*/}
@@ -359,6 +314,29 @@ function ButtonCluster(props: GameComponentProps) {
                 </Button>
                 <p>Clicks Needed: {numeral(10 ** (resets + 1)).format('0.00a')}</p>
                 <p>GameSpeed: {numeral(2000 / gameSpeed).format('0.00%')} </p>
+                <Dropdown size="sm" placement="bottom-end">
+                    <DropdownTrigger>
+                        <Button color="primary" className="">
+                            {selectedOption}⬇️
+                        </Button>
+                    </DropdownTrigger>
+                    <DropdownMenu
+                        disallowEmptySelection
+                        selectedKeys={selectedOption}
+                        selectionMode="single"
+                        onSelectionChange={(keys) => {
+                            console.log(keys)
+                            setSelectedOption(keys as unknown as Set<string>)
+                        }}
+                        className="max-w-[300px] bg-background"
+                    >
+                        <DropdownItem className="bg-content1" key="1">
+                            +1
+                        </DropdownItem>
+                        <DropdownItem key="10">+10</DropdownItem>
+                        <DropdownItem key="MAX">+Max</DropdownItem>
+                    </DropdownMenu>
+                </Dropdown>
             </CardFooter>
         </Card>
     )

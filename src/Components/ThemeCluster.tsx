@@ -22,11 +22,12 @@ const ThemeCluster = () => {
     return (
         <Card className="bg-content2">
             <CardHeader className="justify-center ">Reset To Unlock More Themes</CardHeader>
-            <CardBody>
-                <div className="grid grid-cols-4 gap-4">
+            <CardBody className="overflow-auto">
+                <div className="grid grid-cols-6 gap-4">
                     {themeSubset().map((theme) => {
                         return (
                             <Button
+                                size="sm"
                                 className="col-auto"
                                 style={{
                                     backgroundColor: themes[theme].colors.primary.DEFAULT,
