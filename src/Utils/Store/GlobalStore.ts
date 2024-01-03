@@ -1,14 +1,31 @@
-import { configureStore } from '@reduxjs/toolkit'
-import { level1ClockSlice } from './level1ClockSlice'
-import { tier0Slice } from './tier0Slice'
-import { level1ResetSlice } from './level1ResetSlice'
-import { themeSlice } from './themeSlice'
+import { combineReducers, configureStore } from '@reduxjs/toolkit'
 
-export default configureStore({
-    reducer: {
-        level1Clock: level1ClockSlice.reducer,
-        tier0: tier0Slice.reducer,
-        level1Reset: level1ResetSlice.reducer,
-        theme: themeSlice.reducer,
-    },
+import { themeSlice } from './themeSlice'
+import storage from 'redux-persist/lib/storage'
+import { persistReducer, persistStore } from 'redux-persist'
+import { level1Slice } from './level1Slice'
+
+const persistConfig = {
+    key: 'root',
+    storage,
+}
+
+const allReducers = combineReducers({
+    theme: themeSlice.reducer,
+    level1: level1Slice.reducer,
 })
+
+const rootReducer = (state: any, action: any) => {
+    if (action.type === 'RESET_APP') {
+        state = undefined
+    }
+    return allReducers(state, action)
+}
+
+const persistedReducer = persistReducer(persistConfig, rootReducer)
+
+export const store = configureStore({
+    reducer: persistedReducer,
+})
+
+export const persistor = persistStore(store)

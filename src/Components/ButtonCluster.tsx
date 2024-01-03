@@ -1,31 +1,20 @@
 import {
     Button,
-    ButtonGroup,
     Card,
     CardBody,
     CardFooter,
-    CardHeader,
     Dropdown,
     DropdownItem,
     DropdownMenu,
     DropdownTrigger,
-    getKeyValue,
-    Slider,
-    Table,
-    TableBody,
-    TableCell,
-    TableColumn,
-    TableHeader,
-    TableRow,
 } from '@nextui-org/react'
-import { ReactElement, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { format } from '../Utils/numbers'
 
 import numeral from 'numeral'
 import { useDispatch, useSelector } from 'react-redux'
-import { getLevel1Clock, setLevel1Clock } from '../Utils/Store/level1ClockSlice'
-import { getTier0, setTier0 } from '../Utils/Store/tier0Slice'
-import { getLevel1Reset, incrementLevel1Reset } from '../Utils/Store/level1ResetSlice'
+
+import { getClock, getReset, getTier, setClock, setResets, setTier } from '../Utils/Store/level1Slice'
 import { setTheme } from '../Utils/Store/themeSlice'
 import { THEMES } from '../Utils/THEMES'
 
@@ -33,17 +22,20 @@ interface GameComponentProps {
     className?: string
 }
 function ButtonCluster(props: GameComponentProps) {
-    const clicks = useSelector(getTier0)
-    const resets = useSelector(getLevel1Reset)
+    const clicks = useSelector((state) => getTier(state, 0))
+    const clickers = useSelector((state) => getTier(state, 1))
+    const resets = useSelector(getReset)
 
-    const setClicks = (amount: number) => {
-        dispatch(setTier0(amount))
+    const updateTier = (tier: number, value: number) => {
+        dispatch(setTier({ tier, value }))
     }
+    // @ts-ignore
+
     type buttonOptions = '1' | '10' | 'MAX'
 
     const [selectedOption, setSelectedOption] = useState(new Set(['1']))
     const [devMode, setDevMode] = useState(false)
-    const [clickers, setClickers] = useState(0)
+
     const [clickerFarms, setClickerFarms] = useState(0)
     const [clickerVillages, setClickerVillages] = useState(0)
     const [clickerTowns, setClickerTowns] = useState(0)
@@ -55,8 +47,8 @@ function ButtonCluster(props: GameComponentProps) {
     const entities: GameEntity[] = [
         {
             unit: 'Clicks',
-            quantity: clicks,
-            update: (quantity: number) => setClicks(quantity),
+            quantity: useSelector((state) => getTier(state, 0)),
+            update: (quantity: number) => updateTier(0, quantity),
             tier: 0,
             onClick: (quantity) => {
                 buyEntity(0, quantity)
@@ -64,8 +56,8 @@ function ButtonCluster(props: GameComponentProps) {
         },
         {
             unit: 'Clickers',
-            quantity: clickers,
-            update: (quantity: number) => setClickers(quantity),
+            quantity: useSelector((state) => getTier(state, 1)),
+            update: (quantity: number) => updateTier(1, quantity),
             tier: 1,
             onClick: (quantity) => {
                 buyEntity(1, quantity)
@@ -73,8 +65,8 @@ function ButtonCluster(props: GameComponentProps) {
         },
         {
             unit: 'Clicker Farms',
-            quantity: clickerFarms,
-            update: (quantity: number) => setClickerFarms(quantity),
+            quantity: useSelector((state) => getTier(state, 2)),
+            update: (quantity: number) => updateTier(2, quantity),
             tier: 2,
             onClick: (quantity) => {
                 buyEntity(2, quantity)
@@ -82,8 +74,8 @@ function ButtonCluster(props: GameComponentProps) {
         },
         {
             unit: 'Clicker Villages',
-            quantity: clickerVillages,
-            update: (quantity: number) => setClickerVillages(quantity),
+            quantity: useSelector((state) => getTier(state, 3)),
+            update: (quantity: number) => updateTier(3, quantity),
             tier: 3,
             onClick: (quantity) => {
                 buyEntity(3, quantity)
@@ -91,8 +83,8 @@ function ButtonCluster(props: GameComponentProps) {
         },
         {
             unit: 'Clicker Town',
-            quantity: clickerTowns,
-            update: (quantity: number) => setClickerTowns(quantity),
+            quantity: useSelector((state) => getTier(state, 4)),
+            update: (quantity: number) => updateTier(4, quantity),
             tier: 4,
             onClick: (quantity) => {
                 buyEntity(4, quantity)
@@ -100,8 +92,8 @@ function ButtonCluster(props: GameComponentProps) {
         },
         {
             unit: 'Clicker City',
-            quantity: clickerCities,
-            update: (quantity: number) => setClickerCities(quantity),
+            quantity: useSelector((state) => getTier(state, 5)),
+            update: (quantity: number) => updateTier(5, quantity),
             tier: 5,
             onClick: (quantity) => {
                 buyEntity(5, quantity)
@@ -109,8 +101,8 @@ function ButtonCluster(props: GameComponentProps) {
         },
         {
             unit: 'Clicker Country',
-            quantity: clickerCountries,
-            update: (quantity: number) => setClickerCountries(quantity),
+            quantity: useSelector((state) => getTier(state, 6)),
+            update: (quantity: number) => updateTier(6, quantity),
             tier: 6,
             onClick: (quantity) => {
                 buyEntity(6, quantity)
@@ -118,8 +110,8 @@ function ButtonCluster(props: GameComponentProps) {
         },
         {
             unit: 'Clicker Continents',
-            quantity: clickerContinents,
-            update: (quantity: number) => setClickerContinents(quantity),
+            quantity: useSelector((state) => getTier(state, 7)),
+            update: (quantity: number) => updateTier(7, quantity),
             tier: 7,
             onClick: (quantity) => {
                 buyEntity(7, quantity)
@@ -127,8 +119,8 @@ function ButtonCluster(props: GameComponentProps) {
         },
         {
             unit: 'Clicker Worlds',
-            quantity: clickerWorlds,
-            update: (quantity: number) => setClickerWorlds(quantity),
+            quantity: useSelector((state) => getTier(state, 8)),
+            update: (quantity: number) => updateTier(8, quantity),
             tier: 8,
             onClick: (quantity) => {
                 buyEntity(8, quantity)
@@ -138,7 +130,7 @@ function ButtonCluster(props: GameComponentProps) {
 
     // const [gameSpeed, setGameSpeed] = useState(2000)
 
-    const gameSpeed = useSelector(getLevel1Clock)
+    const gameSpeed = useSelector(getClock)
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -154,27 +146,16 @@ function ButtonCluster(props: GameComponentProps) {
             })
         }, gameSpeed)
         return () => clearTimeout(gameLoop)
-    }, [
-        gameSpeed,
-        clicks,
-        clickers,
-        clickerFarms,
-        clickerVillages,
-        clickerTowns,
-        clickerCities,
-        clickerCountries,
-        clickerContinents,
-        clickerWorlds,
-    ])
+    }, [gameSpeed, entities])
 
     const reset = () => {
         entities.forEach((entity) => {
             entity.update(0)
         })
         console.log(THEMES[resets])
-        dispatch(setLevel1Clock(2000))
+        dispatch(setClock(2000))
         dispatch(setTheme(THEMES[resets + 1]))
-        dispatch(incrementLevel1Reset())
+        dispatch(setResets(resets + 1))
     }
 
     // @ts-ignore
@@ -183,7 +164,7 @@ function ButtonCluster(props: GameComponentProps) {
         const targetEntity = entities.find((entity) => entity.tier === tier) as unknown as GameEntity
 
         if (targetEntity.tier === 0) {
-            targetEntity.update(targetEntity.quantity + quantity)
+            updateTier(targetEntity.tier, targetEntity.quantity + quantity)
         } else {
             const costEntity = entities[entities.indexOf(targetEntity) - 1]
             let cost = tier * 10
@@ -197,7 +178,8 @@ function ButtonCluster(props: GameComponentProps) {
             console.log(`Buying ${quantity} ${targetEntity.unit} with ${cost} ${costEntity.unit}`)
             const canAfford = costEntity.quantity >= cost * quantity
             if (canAfford) {
-                targetEntity.update(targetEntity.quantity + quantity)
+                // targetEntity.update(targetEntity.quantity + quantity)
+                updateTier(targetEntity.tier, targetEntity.quantity + quantity)
                 costEntity.update(costEntity.quantity - cost * quantity)
             } else {
                 alert(`You need ${cost * quantity} ${costEntity.unit} to get that`)
@@ -243,66 +225,19 @@ function ButtonCluster(props: GameComponentProps) {
                             <CardBody className="gap-1 pb-0  justify-center overflow-hidden min-h-fit ">
                                 <div className=" pb-4 pt-0 grid grid-rows-2 text-center  ">
                                     <h1 className=" pb-0 pt-8 underline md:text-lg font-bold">{entity.unit}</h1>
-                                    <p className="pt-0">{entity.quantity}</p>
+                                    <p className="pt-0">
+                                        {' '}
+                                        {entity.quantity < 1e15
+                                            ? numeral(entity.quantity).format('0.0a')
+                                            : numeral(entity.quantity).format('0.0e+0')}
+                                    </p>
                                 </div>
                             </CardBody>
                         </Card>
                     )
                 })}
-
-                {/*<Table hideHeader>*/}
-                {/*    <TableHeader columns={tableColumns}>*/}
-                {/*        {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}*/}
-                {/*    </TableHeader>*/}
-                {/*    <TableBody items={entities} className="bg-content2 gap-1">*/}
-                {/*        {(item) => (*/}
-                {/*            <TableRow key={item.unit} className="gap-1">*/}
-                {/*                <TableCell>*/}
-                {/*                    {item.unit} :*/}
-                {/*                    {item.quantity < 1e15*/}
-                {/*                        ? numeral(item.quantity).format('0.0a')*/}
-                {/*                        : numeral(item.quantity).format('0.0e+0')}*/}
-                {/*                </TableCell>*/}
-                {/*                <TableCell>*/}
-                {/*                    <Button size="sm" color="primary" onClick={() => item.onClick(1)}>*/}
-                {/*                        1X*/}
-                {/*                    </Button>*/}
-                {/*                </TableCell>*/}
-                {/*                <TableCell>*/}
-                {/*                    <Button*/}
-                {/*                        size="sm"*/}
-                {/*                        color="primary"*/}
-                {/*                        isDisabled={resets < 5 && item.tier === 0}*/}
-                {/*                        onClick={() => item.onClick(10)}*/}
-                {/*                    >*/}
-                {/*                        10X*/}
-                {/*                    </Button>*/}
-                {/*                </TableCell>*/}
-                {/*                <TableCell>*/}
-                {/*                    <Button*/}
-                {/*                        size="sm"*/}
-                {/*                        color="primary"*/}
-                {/*                        isDisabled={resets < 10 && item.tier === 0}*/}
-                {/*                        onClick={() => item.onClick(item.tier === 0 ? 100 : -1)}*/}
-                {/*                    >*/}
-                {/*                        {item.tier === 0 ? '100X' : 'MAX'}*/}
-                {/*                    </Button>*/}
-                {/*                </TableCell>*/}
-                {/*            </TableRow>*/}
-                {/*        )}*/}
-                {/*    </TableBody>*/}
-                {/*</Table>*/}
             </CardBody>
             <CardFooter className="gap-3 py-6 justify-center text-center">
-                {/*<Slider*/}
-                {/*    step={1}*/}
-                {/*    minValue={10}*/}
-                {/*    maxValue={5000}*/}
-                {/*    label={'Game Speed'}*/}
-                {/*    value={gameSpeed}*/}
-                {/*    onChange={(value) => setGameSpeed(value as number)}*/}
-                {/*/>*/}
-
                 <Button
                     color="primary"
                     isDisabled={clicks < 10 ** (resets + 1)}
@@ -325,7 +260,7 @@ function ButtonCluster(props: GameComponentProps) {
                         selectedKeys={selectedOption}
                         selectionMode="single"
                         onSelectionChange={(keys) => {
-                            console.log(keys)
+                            // console.log(keys)
                             setSelectedOption(keys as unknown as Set<string>)
                         }}
                         className="max-w-[300px] bg-background"

@@ -2,8 +2,9 @@ import { Button, Card, CardBody, CardFooter, CardHeader } from '@nextui-org/reac
 
 import { setTheme } from '../Utils/Store/themeSlice'
 import { useDispatch, useSelector } from 'react-redux'
-import { getLevel1Reset } from '../Utils/Store/level1ResetSlice'
+
 import { THEME_NAME, themes, THEMES } from '../Utils/THEMES'
+import { getReset } from '../Utils/Store/level1Slice'
 
 const ThemeCluster = () => {
     const dispatch = useDispatch()
@@ -11,7 +12,7 @@ const ThemeCluster = () => {
     const onClick = (theme: THEME_NAME) => {
         dispatch(setTheme(theme))
     }
-    const resets = useSelector(getLevel1Reset)
+    const resets = useSelector(getReset)
 
     const themeSubset = () => {
         if (resets === 0) {

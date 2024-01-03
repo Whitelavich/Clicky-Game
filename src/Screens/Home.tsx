@@ -1,14 +1,18 @@
 import { Card, CardBody, CardFooter } from '@nextui-org/react'
 import ButtonCluster from '../Components/ButtonCluster'
 import GraphCluster from '../Components/CanvasCluster'
-import { useSelector } from 'react-redux'
-import { getLevel1Reset } from '../Utils/Store/level1ResetSlice'
+import { useDispatch, useSelector } from 'react-redux'
 import ThemeCluster from '../Components/ThemeCluster'
 import { getTheme } from '../Utils/Store/themeSlice'
+import { getReset } from '../Utils/Store/level1Slice'
 
 const Home = () => {
-    const level1Resets = useSelector(getLevel1Reset)
-
+    const level1Resets = useSelector(getReset)
+    const dispatch = useDispatch()
+    // @ts-ignore
+    window.resetStore = () => {
+        dispatch({ type: 'RESET_APP' })
+    }
     return (
         <Card className={`${useSelector(getTheme)} rounded-none  max-h-screen min-h-screen bg-background   `}>
             <CardBody className="gap-2 grid md:grid-cols-2 md:grid-rows-1 grid-rows-2 grid-cols-1 w-full">

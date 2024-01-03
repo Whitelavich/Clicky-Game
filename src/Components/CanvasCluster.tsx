@@ -1,26 +1,26 @@
 import { Card, CardBody, CardFooter, CardHeader, Progress } from '@nextui-org/react'
 import { useEffect, useRef, useState } from 'react'
-import { scaleLevel1Clock } from '../Utils/Store/level1ClockSlice'
+
 import { useDispatch, useSelector } from 'react-redux'
-import { getTier0, subTier0 } from '../Utils/Store/tier0Slice'
-import { getLevel1Reset } from '../Utils/Store/level1ResetSlice'
+
 import numeral from 'numeral'
 
 import { throttle } from 'lodash'
 import { getTheme } from '../Utils/Store/themeSlice'
 
 import { THEME_NAME, themes } from '../Utils/THEMES'
+import { getClock, getReset, getTier, setClock } from '../Utils/Store/level1Slice'
 export interface CanvasClusterProps {
     className?: string
 }
 const CanvasCluster = (props: CanvasClusterProps) => {
     const canvasRef = useRef(null)
     const [coverage, setCoverage] = useState(0)
-    const [dotSize, setDotSize] = useState(2)
+    const level1Clock = useSelector(getClock)
     const [loopTime, setLoopTime] = useState(3000)
     const dispatch = useDispatch()
-    const clicks = useSelector(getTier0)
-    const level1Resets = useSelector(getLevel1Reset)
+    const clicks = useSelector((state) => getTier(state, 0))
+    const level1Resets = useSelector(getReset)
     const [startTime, setStartTime] = useState(Date.now())
     const [remainingTime, setRemainingTime] = useState(50)
     const [coords, setCoords] = useState({ x: 0, y: 0 })
@@ -63,10 +63,12 @@ const CanvasCluster = (props: CanvasClusterProps) => {
             setCoverage(localCoverage)
             // console.log({ coverage })
             if (localCoverage >= 0.1 && localCoverage <= 0.5) {
-                dispatch(scaleLevel1Clock(localCoverage / 2))
+                dispatch(setClock(level1Clock * (1 + localCoverage / 2)))
                 setLoopTime(loopTime > 200 ? loopTime - 200 : 200)
             } else {
-                dispatch(scaleLevel1Clock(-(localCoverage / 2)))
+                const newClock = level1Clock * -(localCoverage / 2)
+                dispatch(setClock(newClock))
+                console.log(newClock)
                 setLoopTime(loopTime + 100)
             }
 

@@ -3,14 +3,17 @@ import './App.css'
 import { NextUIProvider } from '@nextui-org/react'
 import Home from './Screens/Home'
 import { Provider } from 'react-redux'
-import GlobalStore from './Utils/Store/GlobalStore'
+import { persistor, store } from './Utils/Store/GlobalStore'
+import { PersistGate } from 'redux-persist/integration/react'
 
 function App() {
     return (
-        <Provider store={GlobalStore}>
-            <NextUIProvider className="text-foreground bg-background ">
-                <Home />
-            </NextUIProvider>
+        <Provider store={store}>
+            <PersistGate loading={null} persistor={persistor}>
+                <NextUIProvider className="text-foreground bg-background ">
+                    <Home />
+                </NextUIProvider>
+            </PersistGate>
         </Provider>
     )
 }
