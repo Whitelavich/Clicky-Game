@@ -49,10 +49,10 @@ const CanvasCluster = (props: CanvasClusterProps) => {
             setCoverage(localCoverage)
             console.log({ localCoverage })
             if (localCoverage >= 0.1 && localCoverage <= 0.5) {
-                dispatch(setClock(level1Clock * (1 - localCoverage)))
+                dispatch(setClock(level1Clock - 100))
                 setLoopTime(loopTime > 200 ? loopTime - 200 : 200)
             } else {
-                const newClock = level1Clock * (1 + localCoverage)
+                const newClock = level1Clock + 100
                 dispatch(setClock(newClock))
                 console.log(newClock)
                 setLoopTime(loopTime + 100)
