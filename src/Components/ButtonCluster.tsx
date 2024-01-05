@@ -110,7 +110,7 @@ function ButtonCluster(props: GameComponentProps) {
             })
         }, gameSpeed)
         return () => clearTimeout(gameLoop)
-    }, [gameSpeed, entities])
+    }, [entities, gameSpeed])
 
     const reset = () => {
         entities.forEach((entity) => {

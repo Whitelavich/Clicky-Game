@@ -21,22 +21,8 @@ const CanvasCluster = (props: CanvasClusterProps) => {
     const dispatch = useDispatch()
     const clicks = useSelector((state) => getTier(state, 0))
     const level1Resets = useSelector(getReset)
-    const [startTime, setStartTime] = useState(Date.now())
-    const [remainingTime, setRemainingTime] = useState(50)
     const [coords, setCoords] = useState({ x: 0, y: 0 })
     const theme: THEME_NAME = useSelector(getTheme)
-    useEffect(() => {
-        setInterval(() => {
-            if (startTime > 1) {
-                const loopPercent = Number((((Date.now() - startTime) / loopTime) * 100).toFixed(0))
-                // console.log(loopPercent)
-                setRemainingTime(loopPercent)
-            }
-
-            //
-            // console.log(remainingTime)
-        }, 250)
-    })
 
     useEffect(() => {
         const gameLoop = setInterval(() => {
@@ -75,8 +61,6 @@ const CanvasCluster = (props: CanvasClusterProps) => {
             // setDotSize(dotSize + (dotSize * coverage ?? 1))
             // console.log({ dotSize })
             context.clearRect(0, 0, canvas.width, canvas.height)
-            setStartTime(Date.now())
-            setRemainingTime(0)
         }, loopTime)
         return () => clearTimeout(gameLoop)
     }, [canvasRef, loopTime])
@@ -157,13 +141,6 @@ const CanvasCluster = (props: CanvasClusterProps) => {
                     Ruh Roh
                 </canvas>
             </CardBody>
-            <CardFooter className="gap-1 pt-0">
-                <Progress
-                    value={remainingTime}
-                    showValueLabel
-                    label={`${(Date.now() - startTime) / 1000}/${loopTime / 1000}`}
-                ></Progress>
-            </CardFooter>
         </Card>
     )
 }
