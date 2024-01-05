@@ -228,7 +228,7 @@ function ButtonCluster(props: GameComponentProps) {
                             key={entity.tier}
                             className={`${
                                 entity.tier === 0 ? 'col-span-full' : ''
-                            } bg-content1  min-h-[100px]  bg-primary text-primary-foreground`}
+                            }   min-h-[100px] text-primary-foreground bg-gradient-to-br from-primary via-primary`}
                         >
                             <CardBody className="gap-1 pb-0  justify-center overflow-hidden min-h-fit ">
                                 <div className=" pb-4 pt-0 grid grid-rows-2 text-center  ">
