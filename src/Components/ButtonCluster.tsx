@@ -141,8 +141,12 @@ function ButtonCluster(props: GameComponentProps) {
             if (quantity === -1) {
                 quantity = Math.floor(costEntity.quantity / cost)
             }
-            console.log(`Buying ${quantity} ${targetEntity.unit} with ${cost} ${costEntity.unit}`)
+            if (quantity === 0) {
+                toast(`You need  at least ${cost} ${costEntity.unit} to get that`)
+            }
+            // console.log(`Buying ${quantity} ${targetEntity.unit} with ${cost} ${costEntity.unit}`)
             const canAfford = costEntity.quantity >= cost * quantity
+
             if (canAfford) {
                 // targetEntity.update(targetEntity.quantity + quantity)
                 clickSound()
