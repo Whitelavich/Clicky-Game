@@ -9,6 +9,7 @@ import {
     DropdownItem,
     DropdownMenu,
     DropdownTrigger,
+    Progress,
 } from '@nextui-org/react'
 import { useEffect, useState } from 'react'
 import { format } from '../Utils/numbers'
@@ -175,7 +176,40 @@ function ButtonCluster(props: GameComponentProps) {
     const selectedOptionValue = Array.from(selectedOption)[0] as unknown as buttonOptions
     return (
         <Card className="bg-content2">
-            <ToastContainer position="top-left" theme="dark" autoClose={1000} />
+            <CardHeader className="justify-end gap-2">
+                {' '}
+                <ToastContainer position="top-left" theme="dark" autoClose={1000} />
+                <p>Speed: {numeral(2000 / gameSpeed).format('0.00%')}</p>
+                <ButtonGroup variant="shadow" size="sm">
+                    <Button color="primary" disabled isDisabled>
+                        {selectedOption}
+                    </Button>
+                    <Dropdown size="sm" placement="bottom-end">
+                        <DropdownTrigger>
+                            <Button isIconOnly color="primary" className="">
+                                ⬇️
+                            </Button>
+                        </DropdownTrigger>
+                        <DropdownMenu
+                            disallowEmptySelection
+                            selectedKeys={selectedOption}
+                            selectionMode="single"
+                            onSelectionChange={(keys) => {
+                                // console.log(keys)
+                                setSelectedOption(keys as unknown as Set<string>)
+                            }}
+                            className="max-w-[300px] bg-background"
+                        >
+                            <DropdownItem className="bg-content1" key="1">
+                                +1
+                            </DropdownItem>
+                            <DropdownItem key="10">+10</DropdownItem>
+                            <DropdownItem key="MAX">+Max</DropdownItem>
+                        </DropdownMenu>
+                    </Dropdown>
+                </ButtonGroup>
+            </CardHeader>
+
             <CardBody className="grid   lg:grid-cols-4 md:gap-4 grid-cols-1 gap-1 justify-center overflow-auto">
                 {entities.map((entity) => {
                     return (
@@ -211,6 +245,12 @@ function ButtonCluster(props: GameComponentProps) {
                 })}
             </CardBody>
             <CardFooter className="gap-2 py-8 justify-center text-center">
+                <Progress
+                    value={(clicks / 10 ** (resets + 1)) * 100}
+                    showValueLabel
+                    label={`Clicks Needed: ${10 ** (resets + 1)}`}
+                ></Progress>
+
                 <Button
                     size="sm"
                     color="primary"
@@ -221,36 +261,6 @@ function ButtonCluster(props: GameComponentProps) {
                     {' '}
                     Reset: {resets}{' '}
                 </Button>
-                <p>Clicks Needed: {numeral(10 ** (resets + 1)).format('0.00a')}</p>
-                <p>Speed: {numeral(2000 / gameSpeed).format('0.00%')}</p>
-                <ButtonGroup variant="shadow" size="sm">
-                    <Button color="primary" disabled isDisabled>
-                        {selectedOption}
-                    </Button>
-                    <Dropdown size="sm" placement="bottom-end">
-                        <DropdownTrigger>
-                            <Button isIconOnly color="primary" className="">
-                                ⬇️
-                            </Button>
-                        </DropdownTrigger>
-                        <DropdownMenu
-                            disallowEmptySelection
-                            selectedKeys={selectedOption}
-                            selectionMode="single"
-                            onSelectionChange={(keys) => {
-                                // console.log(keys)
-                                setSelectedOption(keys as unknown as Set<string>)
-                            }}
-                            className="max-w-[300px] bg-background"
-                        >
-                            <DropdownItem className="bg-content1" key="1">
-                                +1
-                            </DropdownItem>
-                            <DropdownItem key="10">+10</DropdownItem>
-                            <DropdownItem key="MAX">+Max</DropdownItem>
-                        </DropdownMenu>
-                    </Dropdown>
-                </ButtonGroup>
             </CardFooter>
         </Card>
     )
