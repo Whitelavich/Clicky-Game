@@ -22,11 +22,14 @@ import { getClock, getReset, getTier, setClock, setResets, setTier } from '../Ut
 import { setTheme } from '../Utils/Store/themeSlice'
 import { THEMES } from '../Utils/THEMES'
 import { incrementAllTimeResets, incrementAllTimeTier } from '../Utils/Store/allTimeStatsSlice'
+import useSound from 'use-sound'
+import click from '../Assets/audio/click.mp3'
 
 interface GameComponentProps {
     className?: string
 }
 function ButtonCluster(props: GameComponentProps) {
+    const [clickSound] = useSound(click, { volume: 0.1 })
     const clicks = useSelector((state) => getTier(state, 0))
 
     const resets = useSelector(getReset)
@@ -162,6 +165,7 @@ function ButtonCluster(props: GameComponentProps) {
         const targetEntity = entities.find((entity) => entity.tier === tier) as unknown as GameEntity
 
         if (targetEntity.tier === 0) {
+            clickSound()
             updateTier(targetEntity.tier, targetEntity.quantity + quantity)
             dispatch(incrementAllTimeTier({ tier: targetEntity.tier, value: quantity }))
         } else {
@@ -178,6 +182,7 @@ function ButtonCluster(props: GameComponentProps) {
             const canAfford = costEntity.quantity >= cost * quantity
             if (canAfford) {
                 // targetEntity.update(targetEntity.quantity + quantity)
+                clickSound()
                 updateTier(targetEntity.tier, targetEntity.quantity + quantity)
                 dispatch(incrementAllTimeTier({ tier: targetEntity.tier, value: quantity }))
                 costEntity.update(costEntity.quantity - cost * quantity)
