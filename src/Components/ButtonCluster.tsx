@@ -30,6 +30,15 @@ interface GameComponentProps {
     className?: string
 }
 function ButtonCluster(props: GameComponentProps) {
+    const toastClass = {
+        success: 'bg-blue-600',
+        error: 'bg-red-600',
+        info: 'bg-gray-600',
+        warning: 'bg-orange-400',
+        default: 'bg-gradient-to-tr from-primary via-primary text-primary-foreground',
+        dark: 'bg-white-600 font-gray-300',
+    }
+
     const [clickSound] = useSound(click, { volume: 0.1 })
     const clicks = useSelector((state) => getTier(state, 0))
 
@@ -107,6 +116,9 @@ function ButtonCluster(props: GameComponentProps) {
                     entities[entities.indexOf(entity) + 1].quantity > 0
                 ) {
                     updateTier(entity.tier, entity.quantity + entities[entities.indexOf(entity) + 1].quantity)
+                    if (entity.tier === 0 && entity.quantity >= 10 ** (resets + 1)) {
+                        toast('Time to Reset!', { position: 'top-right' })
+                    }
                 }
             })
         }, gameSpeed)
@@ -143,7 +155,7 @@ function ButtonCluster(props: GameComponentProps) {
                 quantity = Math.floor(costEntity.quantity / cost)
             }
             if (quantity === 0) {
-                toast(`You need  at least ${cost} ${costEntity.unit} to get that`)
+                toast(`You need  at least ${cost} ${costEntity.unit} to get that`, { position: 'top-right' })
             }
             // console.log(`Buying ${quantity} ${targetEntity.unit} with ${cost} ${costEntity.unit}`)
             const canAfford = costEntity.quantity >= cost * quantity
@@ -155,7 +167,10 @@ function ButtonCluster(props: GameComponentProps) {
                 dispatch(incrementAllTimeTier({ tier: targetEntity.tier, value: quantity }))
                 updateTier(costEntity.tier, costEntity.quantity - cost * quantity)
             } else {
-                toast(`You need ${cost * quantity} ${costEntity.unit} to get that`)
+                toast(`You need ${cost * quantity} ${costEntity.unit} to get that`, {
+                    position: 'top-right',
+                    className: 'bg-primary',
+                })
                 // alert(`You need ${cost * quantity} ${costEntity.unit} to get that`)
             }
         }
@@ -174,11 +189,20 @@ function ButtonCluster(props: GameComponentProps) {
     }
     const labelsMap: Record<buttonOptions, string> = { '1': '+1', '10': '+10', MAX: '+MAX' }
     const selectedOptionValue = Array.from(selectedOption)[0] as unknown as buttonOptions
+
     return (
         <Card className="bg-content2">
             <CardHeader className="justify-end gap-2">
                 {' '}
-                <ToastContainer position="top-left" theme="dark" autoClose={1000} />
+                <ToastContainer
+                    position="top-left"
+                    autoClose={1000}
+                    toastClassName={(toast) =>
+                        //@ts-ignore
+                        toastClass[toast.type || 'default'] +
+                        ' relative flex p-1 min-h-10 rounded-md justify-between overflow-hidden cursor-pointer'
+                    }
+                />
                 <p>Speed: {numeral(2000 / gameSpeed).format('0.00%')}</p>
                 <ButtonGroup variant="shadow" size="sm">
                     <Button color="primary" disabled isDisabled>
