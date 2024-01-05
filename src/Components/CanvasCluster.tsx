@@ -82,6 +82,8 @@ const CanvasCluster = (props: CanvasClusterProps) => {
     }, [canvasRef, loopTime])
 
     const draw = (event: any) => {
+        event.nativeEvent.stopImmediatePropagation()
+
         const content2 = themes[theme].colors.content2
         const primary = themes[theme].colors.primary.DEFAULT
 
@@ -108,6 +110,8 @@ const CanvasCluster = (props: CanvasClusterProps) => {
     }
 
     const tap = (event: any) => {
+        event.nativeEvent.stopImmediatePropagation()
+
         const content2 = themes[theme].colors.content2
         const primary = themes[theme].colors.primary.DEFAULT
 
