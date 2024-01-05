@@ -81,7 +81,7 @@ function BadgeCluster() {
             icon: mdiBrushOutline,
             color: commonColors.purple[400],
             description: 'Unlocked All Themes',
-            isUnlocked: allTimeResets >= THEMES.length,
+            isUnlocked: allTimeResets >= THEMES.length - 1,
         },
     ]
 

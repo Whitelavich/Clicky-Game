@@ -149,9 +149,9 @@ function ButtonCluster(props: GameComponentProps) {
         entities.forEach((entity) => {
             entity.update(0)
         })
-        console.log(THEMES[resets])
+
         dispatch(setClock(2000))
-        dispatch(setTheme(THEMES[resets + 1]))
+        if (resets + 1 < THEMES.length) dispatch(setTheme(THEMES[resets + 1]))
         dispatch(incrementAllTimeResets(1))
         dispatch(setResets(resets + 1))
     }
