@@ -4,6 +4,7 @@ import {
     Card,
     CardBody,
     CardFooter,
+    CardHeader,
     Dropdown,
     DropdownItem,
     DropdownMenu,
@@ -20,6 +21,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getClock, getReset, getTier, setClock, setResets, setTier } from '../Utils/Store/level1Slice'
 import { setTheme } from '../Utils/Store/themeSlice'
 import { THEMES } from '../Utils/THEMES'
+import { incrementAllTimeResets, incrementAllTimeTier } from '../Utils/Store/allTimeStatsSlice'
 
 interface GameComponentProps {
     className?: string
@@ -150,6 +152,7 @@ function ButtonCluster(props: GameComponentProps) {
         console.log(THEMES[resets])
         dispatch(setClock(2000))
         dispatch(setTheme(THEMES[resets + 1]))
+        dispatch(incrementAllTimeResets(1))
         dispatch(setResets(resets + 1))
     }
 
@@ -160,6 +163,7 @@ function ButtonCluster(props: GameComponentProps) {
 
         if (targetEntity.tier === 0) {
             updateTier(targetEntity.tier, targetEntity.quantity + quantity)
+            dispatch(incrementAllTimeTier({ tier: targetEntity.tier, value: quantity }))
         } else {
             const costEntity = entities[entities.indexOf(targetEntity) - 1]
             let cost = tier * 10
@@ -175,6 +179,7 @@ function ButtonCluster(props: GameComponentProps) {
             if (canAfford) {
                 // targetEntity.update(targetEntity.quantity + quantity)
                 updateTier(targetEntity.tier, targetEntity.quantity + quantity)
+                dispatch(incrementAllTimeTier({ tier: targetEntity.tier, value: quantity }))
                 costEntity.update(costEntity.quantity - cost * quantity)
             } else {
                 toast(`You need ${cost * quantity} ${costEntity.unit} to get that`)
@@ -235,8 +240,9 @@ function ButtonCluster(props: GameComponentProps) {
                     )
                 })}
             </CardBody>
-            <CardFooter className="gap-3 py-6 justify-center text-center">
+            <CardFooter className="gap-2 py-8 justify-center text-center">
                 <Button
+                    size="sm"
                     color="primary"
                     isDisabled={clicks < 10 ** (resets + 1)}
                     disabled={clicks < 10 ** (resets + 1)}
@@ -246,8 +252,8 @@ function ButtonCluster(props: GameComponentProps) {
                     Reset: {resets}{' '}
                 </Button>
                 <p>Clicks Needed: {numeral(10 ** (resets + 1)).format('0.00a')}</p>
-                <p>GameSpeed: {numeral(2000 / gameSpeed).format('0.00%')}</p>
-                <ButtonGroup variant="shadow">
+                <p>Speed: {numeral(2000 / gameSpeed).format('0.00%')}</p>
+                <ButtonGroup variant="shadow" size="sm">
                     <Button color="primary" disabled isDisabled>
                         {selectedOption}
                     </Button>

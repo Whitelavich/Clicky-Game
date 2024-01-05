@@ -28,6 +28,7 @@ const ThemeCluster = () => {
                     {themeSubset().map((theme) => {
                         return (
                             <Button
+                                key={theme}
                                 size="sm"
                                 className="col-auto"
                                 style={{
