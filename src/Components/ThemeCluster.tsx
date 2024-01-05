@@ -24,7 +24,7 @@ const ThemeCluster = () => {
         <Card className="bg-content2">
             <CardHeader className="justify-center ">Reset To Unlock More Themes</CardHeader>
             <CardBody className="overflow-auto">
-                <div className="grid grid-cols-6 gap-4">
+                <div className="grid grid-cols-6  gap-20">
                     {themeSubset().map((theme) => {
                         return (
                             <Button

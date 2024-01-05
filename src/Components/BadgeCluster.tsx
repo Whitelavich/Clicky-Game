@@ -16,7 +16,7 @@ import {
     mdiNewBox,
 } from '@mdi/js'
 import { THEMES } from '../Utils/THEMES'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 function BadgeCluster() {
     const allTimeClicks = useSelector((state) => getAllTimeTier(state, 0))
@@ -27,6 +27,7 @@ function BadgeCluster() {
     interface badge {
         icon: string
         color: string
+
         description: string
         isUnlocked: boolean
         rotate?: number
@@ -83,21 +84,41 @@ function BadgeCluster() {
             isUnlocked: allTimeResets >= THEMES.length,
         },
     ]
+
+    const [isOpen, setIsOpen] = useState(badges.map((badge) => false))
     return (
         <Card className="min-w-full min-h-full bg-content2">
             <CardHeader className="text-center justify-center text-lg pb-0 pt-1 max-h-fit">Achievements</CardHeader>
             <CardBody className="min-h-12 grid grid-rows-1 grid-flow-col justify-start gap-0.5 bg-content1 border-content2 border-4 rounded-2xl">
-                {badges.map((badge) => {
+                {badges.map((badge, idx) => {
                     if (badge.isUnlocked)
                         return (
                             <div key={badge.description}>
-                                <Tooltip content={badge.description}>
-                                    <Icon
-                                        color={badge.color}
-                                        rotate={badge.rotate ?? 0}
-                                        size={2}
-                                        path={badge.icon}
-                                    ></Icon>
+                                <Tooltip
+                                    content={badge.description}
+                                    isOpen={isOpen[idx]}
+                                    isDismissable
+                                    shouldCloseOnBlur
+                                    onOpenChange={(open) => {
+                                        let list = [...isOpen]
+                                        list[idx] = open
+                                        setIsOpen(list)
+                                    }}
+                                >
+                                    <div
+                                        onClick={() => {
+                                            let list = [...isOpen]
+                                            list[idx] = !list[idx]
+                                            setIsOpen(list)
+                                        }}
+                                    >
+                                        <Icon
+                                            color={badge.color}
+                                            rotate={badge.rotate ?? 0}
+                                            size={2}
+                                            path={badge.icon}
+                                        ></Icon>
+                                    </div>
                                 </Tooltip>
                             </div>
                         )
