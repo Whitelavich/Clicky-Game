@@ -48,83 +48,47 @@ function ButtonCluster(props: GameComponentProps) {
         {
             unit: 'Clicks',
             quantity: useSelector((state) => getTier(state, 0)),
-            update: (quantity: number) => updateTier(0, quantity),
             tier: 0,
-            onClick: (quantity) => {
-                buyEntity(0, quantity)
-            },
         },
         {
             unit: 'Clickers',
             quantity: useSelector((state) => getTier(state, 1)),
-            update: (quantity: number) => updateTier(1, quantity),
             tier: 1,
-            onClick: (quantity) => {
-                buyEntity(1, quantity)
-            },
         },
         {
             unit: 'Clicker Farms',
             quantity: useSelector((state) => getTier(state, 2)),
-            update: (quantity: number) => updateTier(2, quantity),
             tier: 2,
-            onClick: (quantity) => {
-                buyEntity(2, quantity)
-            },
         },
         {
             unit: 'Clicker Villages',
             quantity: useSelector((state) => getTier(state, 3)),
-            update: (quantity: number) => updateTier(3, quantity),
             tier: 3,
-            onClick: (quantity) => {
-                buyEntity(3, quantity)
-            },
         },
         {
             unit: 'Clicker Town',
             quantity: useSelector((state) => getTier(state, 4)),
-            update: (quantity: number) => updateTier(4, quantity),
             tier: 4,
-            onClick: (quantity) => {
-                buyEntity(4, quantity)
-            },
         },
         {
             unit: 'Clicker City',
             quantity: useSelector((state) => getTier(state, 5)),
-            update: (quantity: number) => updateTier(5, quantity),
             tier: 5,
-            onClick: (quantity) => {
-                buyEntity(5, quantity)
-            },
         },
         {
             unit: 'Clicker Country',
             quantity: useSelector((state) => getTier(state, 6)),
-            update: (quantity: number) => updateTier(6, quantity),
             tier: 6,
-            onClick: (quantity) => {
-                buyEntity(6, quantity)
-            },
         },
         {
             unit: 'Clicker Continents',
             quantity: useSelector((state) => getTier(state, 7)),
-            update: (quantity: number) => updateTier(7, quantity),
             tier: 7,
-            onClick: (quantity) => {
-                buyEntity(7, quantity)
-            },
         },
         {
             unit: 'Clicker Worlds',
             quantity: useSelector((state) => getTier(state, 8)),
-            update: (quantity: number) => updateTier(8, quantity),
             tier: 8,
-            onClick: (quantity) => {
-                buyEntity(8, quantity)
-            },
         },
     ]
 
@@ -141,7 +105,7 @@ function ButtonCluster(props: GameComponentProps) {
                     entities.indexOf(entity) < entities.length - 1 &&
                     entities[entities.indexOf(entity) + 1].quantity > 0
                 ) {
-                    entity.update(entity.quantity + entities[entities.indexOf(entity) + 1].quantity)
+                    updateTier(entity.tier, entity.quantity + entities[entities.indexOf(entity) + 1].quantity)
                 }
             })
         }, gameSpeed)
@@ -150,9 +114,8 @@ function ButtonCluster(props: GameComponentProps) {
 
     const reset = () => {
         entities.forEach((entity) => {
-            entity.update(0)
+            updateTier(entity.tier, 0)
         })
-
         dispatch(setClock(2000))
         if (resets + 1 < THEMES.length) dispatch(setTheme(THEMES[resets + 1]))
         dispatch(incrementAllTimeResets(1))
@@ -185,7 +148,7 @@ function ButtonCluster(props: GameComponentProps) {
                 clickSound()
                 updateTier(targetEntity.tier, targetEntity.quantity + quantity)
                 dispatch(incrementAllTimeTier({ tier: targetEntity.tier, value: quantity }))
-                costEntity.update(costEntity.quantity - cost * quantity)
+                updateTier(costEntity.tier, costEntity.quantity - cost * quantity)
             } else {
                 toast(`You need ${cost * quantity} ${costEntity.unit} to get that`)
                 // alert(`You need ${cost * quantity} ${costEntity.unit} to get that`)
@@ -203,8 +166,6 @@ function ButtonCluster(props: GameComponentProps) {
         unit: string
         tier: number
         quantity: any
-        update: (quantity: number) => void
-        onClick: (quantity: number) => void
     }
     const labelsMap: Record<buttonOptions, string> = { '1': '+1', '10': '+10', MAX: '+MAX' }
     const selectedOptionValue = Array.from(selectedOption)[0] as unknown as buttonOptions
