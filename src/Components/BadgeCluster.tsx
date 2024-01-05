@@ -89,7 +89,7 @@ function BadgeCluster() {
     return (
         <Card className="min-w-full min-h-full bg-content2">
             <CardHeader className="text-center justify-center text-lg pb-0 pt-1 max-h-fit">Achievements</CardHeader>
-            <CardBody className="min-h-12 grid grid-rows-1 grid-flow-col justify-start gap-0.5 bg-content1 border-content2 border-4 rounded-2xl">
+            <CardBody className="min-h-12 grid grid-cols-6 md:grid-cols-8 lg:grid-cols-12  justify-start gap-0.5 bg-content1 border-content2 border-4 rounded-2xl">
                 {badges.map((badge, idx) => {
                     if (badge.isUnlocked)
                         return (
