@@ -1,4 +1,4 @@
-import { Card, CardBody, CardFooter, CardHeader } from '@nextui-org/react'
+import { Button, Card, CardBody, CardFooter, CardHeader } from '@nextui-org/react'
 import ButtonCluster from '../Components/ButtonCluster'
 import GraphCluster from '../Components/CanvasCluster'
 import { useDispatch, useSelector } from 'react-redux'
@@ -16,8 +16,18 @@ const Home = () => {
     }
     return (
         <Card className={`${useSelector(getTheme)} rounded-none  max-h-screen min-h-screen bg-background   `}>
-            <CardHeader>
+            <CardHeader className="min-w-full justify-center grid grid-rows-2">
                 <BadgeCluster />
+
+                <Button
+                    color="danger"
+                    onClick={() => {
+                        //@ts-ignore
+                        window.resetStore()
+                    }}
+                >
+                    Click To Reset Everything, THIS CANNOT BE UNDONE!
+                </Button>
             </CardHeader>
             <CardBody className="gap-2 grid md:grid-cols-2 md:grid-rows-1 grid-rows-2 grid-cols-1 w-full">
                 <ButtonCluster />
