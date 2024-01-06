@@ -175,7 +175,6 @@ function ButtonCluster(props: GameComponentProps) {
             } else {
                 toast(`You need ${cost * quantity} ${costEntity.unit} to get that`, {
                     position: 'top-right',
-                    className: 'bg-primary',
                 })
                 // alert(`You need ${cost * quantity} ${costEntity.unit} to get that`)
             }
@@ -203,9 +202,9 @@ function ButtonCluster(props: GameComponentProps) {
                 <ToastContainer
                     position="top-left"
                     autoClose={1000}
-                    toastClassName={(toast) =>
+                    toastClassName={() =>
                         //@ts-ignore
-                        toastClass[toast.type || 'default'] +
+                        toastClass['default'] +
                         ' relative flex p-1 min-h-10 rounded-md justify-between overflow-hidden cursor-pointer'
                     }
                 />

@@ -50,7 +50,7 @@ const CanvasCluster = (props: CanvasClusterProps) => {
             console.log({ localCoverage })
             if (localCoverage >= 0.1 && localCoverage <= 0.5) {
                 dispatch(setClock(level1Clock > 100 ? level1Clock - 100 : level1Clock))
-                setLoopTime(loopTime > 100 ? loopTime - 100 : 100)
+                setLoopTime(loopTime > 50 ? loopTime - 50 : 50)
             } else {
                 const newClock = level1Clock + 100
                 dispatch(setClock(newClock))
@@ -76,6 +76,7 @@ const CanvasCluster = (props: CanvasClusterProps) => {
 
         // console.log({ event })
         context.beginPath()
+
         context.lineWidth = level1Resets
         const gradient = context.createLinearGradient(0, 0, canvas.width, canvas.height)
         gradient.addColorStop('0', content2)
@@ -86,6 +87,17 @@ const CanvasCluster = (props: CanvasClusterProps) => {
         context.moveTo(coords.x, coords.y)
         context.lineTo(event.nativeEvent.layerX, event.nativeEvent.layerY)
         context.stroke()
+        if (level1Resets >= 5) {
+            context.moveTo(coords.x, coords.y + level1Resets + 10)
+            context.lineTo(event.nativeEvent.layerX, event.nativeEvent.layerY + level1Resets + 10)
+            context.stroke()
+        }
+        if (level1Resets >= 10) {
+            context.moveTo(coords.x, coords.y - level1Resets - 10)
+            context.lineTo(event.nativeEvent.layerX, event.nativeEvent.layerY - level1Resets - 10)
+            context.stroke()
+        }
+
         setCoords({ x: event.nativeEvent.layerX, y: event.nativeEvent.layerY })
         // console.log(context)
 
@@ -118,6 +130,7 @@ const CanvasCluster = (props: CanvasClusterProps) => {
         context.lineCap = 'round'
         context.moveTo(coords.x, coords.y)
         context.lineTo(event.touches[0].clientX - rect.left, event.touches[0].clientY - rect.top)
+
         context.stroke()
         setCoords({ x: event.touches[0].clientX - rect.left, y: event.touches[0].clientY - rect.top })
     }
