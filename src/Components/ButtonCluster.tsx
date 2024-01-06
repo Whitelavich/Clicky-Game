@@ -116,7 +116,10 @@ function ButtonCluster(props: GameComponentProps) {
                     entities[entities.indexOf(entity) + 1].quantity > 0
                 ) {
                     updateTier(entity.tier, entity.quantity + entities[entities.indexOf(entity) + 1].quantity)
-                    if (entity.tier === 0 && entity.quantity >= 10 ** (resets + 1)) {
+                    if (
+                        entity.tier === 0 &&
+                        entity.quantity + entities[entities.indexOf(entity) + 1].quantity >= 10 ** (resets + 1)
+                    ) {
                         toast('Time to Reset!', { position: 'top-right' })
                     }
                 }
