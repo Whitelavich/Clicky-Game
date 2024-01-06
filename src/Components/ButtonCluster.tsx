@@ -144,7 +144,7 @@ function ButtonCluster(props: GameComponentProps) {
             clickSound()
             updateTier(targetEntity.tier, targetEntity.quantity + quantity)
             dispatch(incrementAllTimeTier({ tier: targetEntity.tier, value: quantity }))
-            if (targetEntity.quantity >= 10 ** (resets + 1)) {
+            if (targetEntity.quantity + quantity >= 10 ** (resets + 1)) {
                 toast('Time to Reset!', { position: 'top-right' })
             }
         } else {
